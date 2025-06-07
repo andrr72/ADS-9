@@ -32,4 +32,7 @@ class PMTree {
                    int target, std::vector<char>& result);
 };
 
+std::vector<char> getPerm1(PMTree& tree, int num);
+std::vector<char> getPerm2(PMTree& tree, int num);
+
 #endif  // INCLUDE_TREE_H_
