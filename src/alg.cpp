@@ -29,7 +29,8 @@ void PMTree::buildTree(PMTreeNode* node, const std::vector<char>& remaining) {
     PMTreeNode* child = new PMTreeNode(c);
     node->children.push_back(child);
     std::vector<char> nextRemaining = remaining;
-    nextRemaining.erase(std::remove(nextRemaining.begin(), nextRemaining.end(), c), nextRemaining.end());
+    nextRemaining.erase(std::remove(nextRemaining.begin(),
+      nextRemaining.end(), c), nextRemaining.end());
     buildTree(child, nextRemaining);
   }
 }
