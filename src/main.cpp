@@ -1,9 +1,8 @@
 // Copyright 2022 NNTU-CS
-
-#include "tree.h"
 #include <chrono>
 #include <random>
 #include <iostream>
+#include "tree.h"
 
 int main() {
   std::vector<char> in = {'1', '2', '3'};
