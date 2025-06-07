@@ -18,6 +18,9 @@ class PMTree {
     char value;
     std::vector<Node*> children;
     explicit Node(char v) : value(v), children() {}
+    ~Node() {
+      for (Node* child : children) delete child;
+    }
   };
 
   Node* root;
