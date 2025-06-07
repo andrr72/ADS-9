@@ -21,7 +21,7 @@ PMTree::~PMTree() {
 }
 
 void PMTree::buildTree(Node* node, std::vector<char> available) {
-  if (available.empty() || !node) return;
+  if (!node || available.empty()) return;
   for (char val : available) {
     Node* child = new Node(val);
     node->children.push_back(child);
@@ -56,8 +56,8 @@ std::vector<std::vector<char>> PMTree::getAllPerms() {
 }
 
 void PMTree::getPermByIndex(Node* node, std::vector<char>& current, int& index,
-                           int target, std::vector<char>& result) {
-  if (!node) return;
+                           int target, std::vector<char>& result, int depth) {
+  if (!node || depth > symbols.size()) return;
   if (index == target) {
     if (node->value != '\0') result = current;
     return;
@@ -65,14 +65,16 @@ void PMTree::getPermByIndex(Node* node, std::vector<char>& current, int& index,
   if (node->value != '\0') current.push_back(node->value);
   for (Node* child : node->children) {
     index++;
-    getPermByIndex(child, current, index, target, result);
+    getPermByIndex(child, current, index, target, result, depth + 1);
     if (!result.empty()) return;
   }
   if (node->value != '\0') current.pop_back();
 }
 
 std::vector<char> PMTree::getPerm1(int num) {
-  if (!root || num < 1) return std::vector<char>();
+  if (!root || num < 1 || num > static_cast<int>(1 << symbols.size())) {
+    return std::vector<char>();
+  }
   std::vector<char> current, result;
   int index = 0;
   getPermByIndex(root, current, index, num - 1, result);
@@ -80,8 +82,8 @@ std::vector<char> PMTree::getPerm1(int num) {
 }
 
 void PMTree::navigateTree(Node* node, std::vector<char>& current, int& index,
-                         int target, std::vector<char>& result) {
-  if (!node) return;
+                         int target, std::vector<char>& result, int depth) {
+  if (!node || depth > symbols.size()) return;
   if (node->children.empty()) {
     if (index == target - 1) result = current;
     return;
@@ -94,7 +96,7 @@ void PMTree::navigateTree(Node* node, std::vector<char>& current, int& index,
   for (int i = 0; i < childrenCount; ++i) {
     if (index + permsPerChild * (childrenCount - i) >= target) {
       index += permsPerChild * i;
-      navigateTree(node->children[i], current, index, target, result);
+      navigateTree(node->children[i], current, index, target, result, depth + 1);
       break;
     }
   }
@@ -102,7 +104,9 @@ void PMTree::navigateTree(Node* node, std::vector<char>& current, int& index,
 }
 
 std::vector<char> PMTree::getPerm2(int num) {
-  if (!root || num < 1) return std::vector<char>();
+  if (!root || num < 1 || num > static_cast<int>(1 << symbols.size())) {
+    return std::vector<char>();
+  }
   std::vector<char> current, result;
   int index = 0;
   navigateTree(root, current, index, num, result);
