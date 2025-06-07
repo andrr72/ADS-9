@@ -1,4 +1,5 @@
 // Copyright 2022 NNTU-CS
+
 #include <iostream>
 #include <fstream>
 #include <locale>
@@ -96,4 +97,13 @@ std::vector<char> PMTree::getPerm2(int num) {
   int index = 0;
   navigateTree(root, current, index, num, result);
   return result;
+}
+
+// Обертки для совместимости с tests.cpp
+std::vector<char> getPerm1(PMTree& tree, int num) {
+  return tree.getPerm1(num);
+}
+
+std::vector<char> getPerm2(PMTree& tree, int num) {
+  return tree.getPerm2(num);
 }
