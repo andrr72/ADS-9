@@ -11,11 +11,7 @@ class PMTreeNode {
   std::vector<PMTreeNode*> children;
 
   explicit PMTreeNode(char val) : value(val) {}
-  ~PMTreeNode() {
-    for (PMTreeNode* child : children) {
-      delete child;
-    }
-  }
+  ~PMTreeNode();
 };
 
 class PMTree {
@@ -24,6 +20,9 @@ class PMTree {
 
   explicit PMTree(const std::vector<char>& elements);
   ~PMTree();
+
+ private:
+  void buildTree(PMTreeNode* node, const std::vector<char>& remaining);
 };
 
 std::vector<std::vector<char>> getAllPerms(const PMTree& tree);
