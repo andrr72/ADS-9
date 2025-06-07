@@ -10,7 +10,7 @@ class PMTreeNode {
   char value;
   std::vector<PMTreeNode*> children;
 
-  PMTreeNode(char val) : value(val) {}
+  explicit PMTreeNode(char val) : value(val) {}
   ~PMTreeNode() {
     for (PMTreeNode* child : children) {
       delete child;
@@ -22,7 +22,7 @@ class PMTree {
  public:
   PMTreeNode* root;
 
-  PMTree(const std::vector<char>& elements);
+  explicit PMTree(const std::vector<char>& elements);
   ~PMTree();
 };
 
