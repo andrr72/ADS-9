@@ -1,9 +1,9 @@
 // Copyright 2022 NNTU-CS
-
 #include <iostream>
 #include <fstream>
 #include <locale>
 #include <cstdlib>
+#include <vector>
 #include "tree.h"
 
 PMTree::PMTree(const std::vector<char>& input) : symbols(input) {
@@ -20,12 +20,14 @@ void PMTree::buildTree(Node* node, std::vector<char> available) {
     Node* child = new Node(val);
     node->children.push_back(child);
     std::vector<char> remaining;
-    for (char c : available) if (c != val) remaining.push_back(c);
+    for (char c : available)
+      if (c != val) remaining.push_back(c);
     buildTree(child, remaining);
   }
 }
 
-void PMTree::getPermutations(Node* node, std::vector<char>& current, std::vector<std::vector<char>>& result) {
+void PMTree::getPermutations(Node* node, std::vector<char>& current,
+                            std::vector<std::vector<char>>& result) {
   if (node->children.empty()) {
     if (node->value != '\0') current.push_back(node->value);
     result.push_back(current);
@@ -46,7 +48,8 @@ std::vector<std::vector<char>> PMTree::getAllPerms() {
   return result;
 }
 
-void PMTree::getPermByIndex(Node* node, std::vector<char>& current, int& index, int target, std::vector<char>& result) {
+void PMTree::getPermByIndex(Node* node, std::vector<char>& current, int& index,
+                           int target, std::vector<char>& result) {
   if (index == target) {
     if (node->value != '\0') result = current;
     return;
@@ -67,7 +70,8 @@ std::vector<char> PMTree::getPerm1(int num) {
   return result;
 }
 
-void PMTree::navigateTree(Node* node, std::vector<char>& current, int& index, int target, std::vector<char>& result) {
+void PMTree::navigateTree(Node* node, std::vector<char>& current, int& index,
+                         int target, std::vector<char>& result) {
   if (node->children.empty()) {
     if (index == target - 1) result = current;
     return;
@@ -75,8 +79,9 @@ void PMTree::navigateTree(Node* node, std::vector<char>& current, int& index, in
   if (node->value != '\0') current.push_back(node->value);
   int childrenCount = node->children.size();
   int permsPerChild = 1;
-  for (int i = 0; i < current.size() - 1; i++) permsPerChild *= (symbols.size() - i - 1);
-  for (int i = 0; i < childrenCount; i++) {
+  for (int i = 0; i < current.size() - 1; ++i)
+    permsPerChild *= (symbols.size() - i - 1);
+  for (int i = 0; i < childrenCount; ++i) {
     if (index + permsPerChild * (childrenCount - i) >= target) {
       index += permsPerChild * i;
       navigateTree(node->children[i], current, index, target, result);
