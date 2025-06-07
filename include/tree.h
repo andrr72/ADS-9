@@ -5,6 +5,8 @@
 
 #include <vector>
 
+#include "tree.h"
+
 class PMTree {
  public:
   explicit PMTree(const std::vector<char>& input);
